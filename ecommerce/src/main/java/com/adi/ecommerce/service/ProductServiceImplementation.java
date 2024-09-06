@@ -55,7 +55,7 @@ public class ProductServiceImplementation implements ProductService {
         Category thirdLevel=categoryRepository.findByNameAndParent(req.getThirdLevelCategory(), secondLevel.getName());
         if(thirdLevel==null){
             Category thirdLevelCategory=new Category();
-            thirdLevelCategory.setName(req.getSecondLevelCategory());
+            thirdLevelCategory.setName(req.getThirdLevelCategory());
             thirdLevelCategory.setParentCategory(secondLevel);
             thirdLevelCategory.setLevel(3);
 

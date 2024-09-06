@@ -1,6 +1,8 @@
 package com.adi.ecommerce.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -11,12 +13,12 @@ import jakarta.validation.constraints.Size;
 public class Category {
 
     @Id
-    @Size(max = 50)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Size(max = 50)
+    @NotNull(message = "Category name must not be null")
     private String name;
+
 
     @ManyToOne
     @JoinColumn(name = "parent_category_id")

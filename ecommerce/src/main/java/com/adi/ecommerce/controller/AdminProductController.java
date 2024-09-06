@@ -55,6 +55,7 @@ public class AdminProductController {
         return new ResponseEntity<Product>(product, HttpStatus.CREATED);
     }
 
+    @PostMapping("/creates")
     public ResponseEntity<ApiResponse> createMultipleProduct(@RequestBody CreateProductRequest[] req) {
         for (CreateProductRequest product : req) {
             productService.createProduct(product);
