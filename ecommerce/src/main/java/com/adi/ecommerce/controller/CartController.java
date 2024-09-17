@@ -40,7 +40,7 @@ public class CartController {
     @PutMapping("/add")
     public ResponseEntity<ApiResponse> addItemToCart(@RequestBody AddItemRequest req,
             @RequestHeader("Authorization") String jwt) throws UserException, ProductException {
-        User user = new User();
+        User user = userService.findUserProfileByJwt(jwt);
         cartService.addCartItem(user.getId(), req);
         ApiResponse res = new ApiResponse();
         res.setMessage("item added to cart");

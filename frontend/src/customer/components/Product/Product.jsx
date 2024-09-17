@@ -31,8 +31,9 @@ import {
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { findProducts } from "../../../State/Product/Action";
+import Pagination from '@mui/material/Pagination';
 
 
 const sortOptions = [
@@ -50,6 +51,7 @@ export default function Product() {
   const navigate = useNavigate();
   const param=useParams();
   const dispatch=useDispatch();
+  const {products}=useSelector(store=>store)
 
   const decodedQueryString=decodeURIComponent(location.search);
   const searchParams=new URLSearchParams(decodedQueryString);
@@ -61,6 +63,12 @@ export default function Product() {
   const pageNumber=searchParams.get("page")||1;
   const stock=searchParams.get("stock");
 
+  const handlePaginationChange=(event,value)=>{
+    const searchParams=new URLSearchParams(location.search)
+    searchParams.set("page",value)
+    const query=searchParams.toString()
+    navigate({search:`?${query}`})
+  }
 
   const handleFilter = (value, sectionId) => {
     const searchParams = new URLSearchParams(location.search);
@@ -99,7 +107,7 @@ export default function Product() {
       minDiscount:discount||0,
       sort:sortValue||"price_low",
       pageNumber:pageNumber -1,
-      pageSize:10,
+      pageSize:12,
       stock:stock
     }
     dispatch(findProducts(data))
@@ -386,11 +394,17 @@ export default function Product() {
               {/* Product grid */}
               <div className="lg:col-span-4 w-full">
                 <div className="flex flex-wrap justify-center bg-white py-5">
-                  {mens_kurta.map((item) => (
+                  {products.products && products.products?.content?.map((item) => (
                     <ProductCard product={item} />
                   ))}
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section className="w-full px=[3.6rem]">
+            <div className="px-4 py-5 flex justify-center ">
+            <Pagination count={products.products?.totalPages} color="secondary" onChange={handlePaginationChange}/>
             </div>
           </section>
         </main>

@@ -4,6 +4,7 @@ import HomeSectionCarousel from '../../components/HomeSectionCarousel/HomeSectio
 import { mens_kurta } from '../../../Data/mens_kurta'
 
 export default function HomePage() {
+
   return (
     <div>
         <MainCarousel/>

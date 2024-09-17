@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.adi.ecommerce.exception.CartItemException;
 import com.adi.ecommerce.exception.ProductException;
 import com.adi.ecommerce.exception.UserException;
+import com.adi.ecommerce.model.CartItem;
 import com.adi.ecommerce.model.User;
 import com.adi.ecommerce.request.AddItemRequest;
 import com.adi.ecommerce.response.ApiResponse;
@@ -43,6 +44,13 @@ public class CartItemController {
         res.setMessage("Item deleted");
         res.setStatus(true);
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PutMapping("/{cartItemId}")
+    public ResponseEntity<CartItem> updateCartItem(@RequestBody CartItem cartItem,@PathVariable Long cartItemId, @RequestHeader("Authorization") String jwt) throws UserException, CartItemException{
+        User user=userService.findUserProfileByJwt(jwt);
+        CartItem updCartItem=cartItemService.updateCartITem(user.getId(),cartItemId,cartItem);
+        return new ResponseEntity<>(updCartItem,HttpStatus.OK);
     }
 
     @PutMapping("/add")
